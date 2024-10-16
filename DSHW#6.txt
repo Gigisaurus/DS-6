@@ -1,0 +1,52 @@
+        public bool Descendant(T parent, T child) //public method that calls private method, encapsulation
+        {
+            if (child.Equals(parent)) //nodes have unique key value, handles if child and parent input are the same
+            {
+                return false;
+            }
+
+            return Descendant(parent, child, root); //calls the method starting at the root node
+        }
+
+        private bool Descendant(T parent, T child, Node ptmp)
+        {
+
+            bool pFound = false; //a bool for if parent is found for the loop case
+            bool cFound = false; //bool for if child is found
+
+            while (ptmp != null || (!pFound && !cFound)) //searches until we fall off or parent and child node is found
+            {
+
+                if (parent.Equals(ptmp.Data)) //parent is found
+                {
+                    pFound = true;
+                    while (ptmp != null) //searches until we fall off list
+                    {
+                        if (child.Equals(ptmp.Data)) //child is found, breaks out of loop
+                        {
+                            cFound = true;
+                            break;
+                        }
+                        else if (child.CompareTo(ptmp.Data) > 0) //traversal for comparing child node
+                            ptmp = ptmp.Right;
+                        else if (child.CompareTo(ptmp.Data) < 0) //traversal
+                            ptmp = ptmp.Left;
+                        else //child wasn't found in tree
+                            cFound = false;
+                    }
+                }
+
+                else if (parent.CompareTo(ptmp.Data) > 0) //traversal - moves right if it's greater than current node
+                {
+                    ptmp = ptmp.Right;
+                }
+                else if (parent.CompareTo(ptmp.Data) < 0) //traversal
+                {
+                    ptmp = ptmp.Left;
+                }
+            }
+
+            return pFound && cFound; //AND operation, only returns true if both child and parent is found
+
+        
+        }
